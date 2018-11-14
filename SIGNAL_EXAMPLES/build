@@ -1,0 +1,6 @@
+#!/bin/sh -eu
+for c in *.c; do
+	gcc $c -o ${c%.c} -lpthread
+	musl-gcc $c -o musl-${c%.c} -lpthread
+done
+
