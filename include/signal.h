@@ -271,6 +271,19 @@ typedef int sig_atomic_t;
 void (*signal(int, void (*)(int)))(int);
 int raise(int);
 
+#include <setjmp.h>
+#include <stdint.h>
+
+/*non-NULL*/ struct musl_sig_cancel_flags *musl_sig_cancel_flags(void); /*AS-safe getter*/
+int musl_sig_cancel__interrupt_syscall(void /*ucontext_t*/ *Uctx);
+#define musl_sig_cancel__interrupt_syscall(Uctx) musl_sig_cancel__interrupt_syscall(Uctx)
+int musl_sig_cancel__test(void);
+struct musl_sig_cancel_flags {
+	sig_atomic_t volatile musl_sig_syscall_breaker;
+	sig_atomic_t          musl_sig_active;
+	uint_least64_t volatile  musl_sig_entry_mask; /*unused in libc*/
+	sigjmp_buf volatile  *musl_sig_jmpbufp; /*unused in libc*/
+};
 #ifdef __cplusplus
 }
 #endif
