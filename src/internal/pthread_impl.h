@@ -52,6 +52,8 @@ struct pthread {
 	char *dlerror_buf;
 	void *stdio_locks;
 
+	struct musl_sig_cancel_flags cancel_flags;
+
 	/* Part 3 -- the positions of these fields relative to
 	 * the end of the structure is external and internal ABI. */
 	uintptr_t canary_at_end;
